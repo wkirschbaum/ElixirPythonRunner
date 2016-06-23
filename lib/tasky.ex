@@ -7,7 +7,11 @@ defmodule Tasky do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(Tasky.RandomLogger, []),
+      worker(Tasky.Runner, ["lib/python", "task1"], id: "task1"),
+      worker(Tasky.Runner, ["lib/python", "task10"], id: "task10"),
+      worker(Tasky.Runner, ["lib/python", "task11"], id: "task11"),
+      worker(Tasky.Runner, ["lib/python", "task12"], id: "task12"),
+      worker(Tasky.Runner, ["lib/python", "task13"], id: "task13"),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
