@@ -67,6 +67,10 @@ defmodule Tasky.Runner do
     |> Enum.join("\n")
   end
 
+  defp stringify_python_error(_) do
+    "Unknown error"
+  end
+
   defp handle_python_error_line({filename, linenumber, methodname, message}) do
     "#{message}\n\t#{filename}:#{linenumber}"
   end
