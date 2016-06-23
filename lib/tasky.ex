@@ -1,6 +1,8 @@
 defmodule Tasky do
   use Application
 
+  require Logger
+
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
@@ -18,5 +20,9 @@ defmodule Tasky do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Tasky.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  def handle_info(_, state) do
+    Logger.debug("asdadassdasdads\n\n\n\nadsasdasd")
   end
 end
