@@ -1,0 +1,2 @@
+%{"erlport": {:git, "https://github.com/hdima/erlport.git", "246b7722d62b87b48be66d9a871509a537728962", []},
+  "export": {:hex, :export, "0.0.7", "f930e51fd09855ab5cfa3295acee86ab119f6cc386bba2a455bd6a45570d699f", [:mix], []}}
