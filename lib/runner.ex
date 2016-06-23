@@ -26,21 +26,12 @@ defmodule Tasky.Runner do
     task = Task.async(fn -> call_python_script(state) end)
 
     case Task.yield(task, 5000) do
-      {:ok, {:ok, _result}} ->
+      {:ok, _result} ->
         Process.send_after(self(), :work, 8000)
-        {:noreply, %{ state | method: "start" }}
-      {:ok, {:error, error}} ->
-        error
-        |> stringify_python_error
-        |> Logger.error
-
-        Process.send_after(self(), :work, 2000)
-        {:noreply, %{ state | method: "resume" }}
-      nil ->
-        Task.shutdown(task)
-        Logger.error("Python script timed out")
-        Process.send_after(self(), :work, 2000)
-        {:noreply, %{ state | method: "resume" }}
+        {:noreply, state}
+      nil -> # timeout
+        Task.shutdown(task) 
+        {:noreply, state}
     end
   end
 
@@ -52,13 +43,8 @@ defmodule Tasky.Runner do
       params: params
     } = state
 
-    try do
-      result = Python.call(py, filename, method, params)
-      {:ok, result}
-    rescue
-      e ->
-        {:error, e}
-    end
+    result = Python.call(py, filename, method, params)
+    {:ok, result}
   end
 
   defp stringify_python_error(%ErlangError{original: {:python, _, _, lines}}) do
